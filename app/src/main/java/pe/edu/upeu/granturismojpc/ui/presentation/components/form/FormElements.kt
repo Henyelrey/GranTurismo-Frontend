@@ -432,16 +432,20 @@ fun EmailTextField(easyForms: EasyForms, text: String, label:String, tipo:String
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(easyForms: EasyForms,text: String, label:String,
-                      passwordVisibility: MutableState<Boolean> = remember { mutableStateOf(false) }
+fun PasswordTextField(
+    easyForms: EasyForms,
+    text: String,
+    label: String,
+    key: String,
+    passwordVisibility: MutableState<Boolean> = remember { mutableStateOf(false) }
 ) {
     val textFieldState = easyForms.getTextFieldState(
-        key = MyFormKeys.PASSWORD,
+        key = key,
         easyFormsValidationType = PasswordValidationType,
         defaultValue = text,
     )
     val state = textFieldState.state
-    //val passwordVisibility: Boolean by remember { mutableStateOf(false) }
+
     OutlinedTextField(
         value = state.value,
         label = { Text(text = label) },
@@ -453,12 +457,8 @@ fun PasswordTextField(easyForms: EasyForms,text: String, label:String,
                 Icons.Filled.Face
             else Icons.Filled.Lock
 
-            // Please provide localized description for accessibility services
-            val description = if (passwordVisibility.value) "Hide password" else "Show password"
-
-            IconButton(
-                onClick = {passwordVisibility.value=!passwordVisibility.value }){
-                Icon(imageVector  = image, description)
+            IconButton(onClick = { passwordVisibility.value = !passwordVisibility.value }) {
+                Icon(imageVector = image, contentDescription = null)
             }
         }
     )

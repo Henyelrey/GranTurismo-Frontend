@@ -48,7 +48,7 @@ import pe.edu.upeu.granturismojpc.ui.theme.GranTurismoJPCTheme
 @Composable
 fun LoginScreen(
     navigateToHome: () -> Unit,
-    //navigateToRegisterScreen: ()-> Unit,
+    navigateToRegisterScreen: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.isLoading.observeAsState(false)
@@ -70,7 +70,7 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 EmailTextField(easyForms = easyForm, text = "", "E-Mail:", "U")
-                PasswordTextField(easyForms = easyForm, text = "", label = "Password:")
+                PasswordTextField(easyForms = easyForm, text = "", label = "Password:", key = "password")
                 Spacer(modifier = Modifier.height(10.dp))
                 LoginButton(
                     easyForms = easyForm, onClick = {
@@ -106,8 +106,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Button(onClick = {
-                    // Lógica para ir a la pantalla de registro
-                    //navigateToRegisterScreen.invoke()
+                    navigateToRegisterScreen.invoke()
                 }) {
                     Text("Registrarse")
                 }
@@ -143,7 +142,8 @@ private fun DefaultPreview() {
     val darkTheme = isSystemInDarkTheme()
     GranTurismoJPCTheme(colorScheme = colors) {
         LoginScreen(
-            navigateToHome = {}
+            navigateToHome = {},
+            navigateToRegisterScreen = {}
         )
     }
 }

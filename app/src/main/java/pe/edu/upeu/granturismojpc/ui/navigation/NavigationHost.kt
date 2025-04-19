@@ -13,6 +13,7 @@ import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla3
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla4
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla5
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.login.LoginScreen
+import pe.edu.upeu.granturismojpc.ui.presentation.screens.register.RegisterScreen
 
 @Composable
 fun NavigationHost(
@@ -25,8 +26,19 @@ fun NavigationHost(
             Destinations.Login.route
     ) {
         composable(Destinations.Login.route) {
-            LoginScreen(navigateToHome = { navController.navigate(Destinations.Pantalla1.route) })
+            LoginScreen(
+                navigateToHome = { navController.navigate(Destinations.Pantalla1.route) },
+                navigateToRegisterScreen = { navController.navigate(Destinations.Register.route) }
+            )
         }
+
+        composable(Destinations.Register.route) {
+            RegisterScreen(
+                navigateToLogin = { navController.navigate(Destinations.Login.route) },
+                navigateToHome = { navController.navigate(Destinations.Pantalla1.route) },
+            )
+        }
+
         composable(Destinations.Pantalla1.route) {
             Pantalla1(navegarPantalla2 = { newText ->
                 navController.navigate(
