@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import pe.edu.upeu.granturismojpc.repository.PaqueteRepository
 import pe.edu.upeu.granturismojpc.repository.PaqueteRepositoryImp
+import pe.edu.upeu.granturismojpc.repository.ProveedorRepository
+import pe.edu.upeu.granturismojpc.repository.ProveedorRepositoryImp
 import pe.edu.upeu.granturismojpc.repository.UsuarioRepository
 import pe.edu.upeu.granturismojpc.repository.UsuarioRepositoryImp
 import javax.inject.Singleton
@@ -21,4 +23,9 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun paqueteRepository(packRepos:
                                 PaqueteRepositoryImp): PaqueteRepository
+    @Binds
+    @Singleton
+    abstract fun proveedorRepository(provRepos:
+                                   ProveedorRepositoryImp): ProveedorRepository
+
 }

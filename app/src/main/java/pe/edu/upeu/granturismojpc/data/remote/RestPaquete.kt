@@ -1,6 +1,7 @@
 package pe.edu.upeu.granturismojpc.data.remote
 
 import pe.edu.upeu.granturismojpc.model.Message
+import pe.edu.upeu.granturismojpc.model.PaqueteCreateDto
 import pe.edu.upeu.granturismojpc.model.PaqueteDto
 import pe.edu.upeu.granturismojpc.model.PaqueteResp
 import retrofit2.Response
@@ -28,7 +29,7 @@ interface RestPaquete {
                                    PaqueteDto): Response<PaqueteResp>
     @POST("${BASE_PACK}")
     suspend fun insertarPaquete(@Header("Authorization")
-                                 token:String, @Body Paquete: PaqueteDto): Response<Message>
+                                 token:String, @Body Paquete: PaqueteCreateDto): Response<Message>
     companion object {
         const val BASE_PACK = "/paquetes"
     }

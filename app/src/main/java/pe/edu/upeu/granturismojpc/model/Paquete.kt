@@ -12,7 +12,7 @@ data class PaqueteDto(
     var localidad: String,
     var tipoActividad: String,
     var cuposMaximos: Int,
-    var proveedorId: Long,
+    var proveedor: Long,
     var fechaInicio: String,
     var fechaFin: String
 )
@@ -31,6 +31,19 @@ data class PaqueteResp(
     val fechaFin: String
 )
 
+data class PaqueteCreateDto(
+    val titulo: String,
+    val descripcion: String,
+    val precio: Double,
+    val imagenUrl: String,
+    val localidad: String,
+    val tipoActividad: String,
+    val cuposMaximos: Int,
+    val proveedor: Long,
+    val fechaInicio: String,
+    val fechaFin: String
+)
+
 fun PaqueteResp.toDto(): PaqueteDto {
     return PaqueteDto(
         idPaquete = this.idPaquete,
@@ -41,7 +54,22 @@ fun PaqueteResp.toDto(): PaqueteDto {
         localidad = this.localidad,
         tipoActividad = this.tipoActividad,
         cuposMaximos = this.cuposMaximos,
-        proveedorId = this.proveedor.idProveedor,
+        proveedor = this.proveedor.idProveedor,
+        fechaInicio = this.fechaInicio,
+        fechaFin = this.fechaFin
+    )
+}
+
+fun PaqueteDto.toCreateDto(): PaqueteCreateDto {
+    return PaqueteCreateDto(
+        titulo = this.titulo,
+        descripcion = this.descripcion,
+        precio = this.precio,
+        imagenUrl = this.imagenUrl,
+        localidad = this.localidad,
+        tipoActividad = this.tipoActividad,
+        cuposMaximos = this.cuposMaximos,
+        proveedor = this.proveedor,
         fechaInicio = this.fechaInicio,
         fechaFin = this.fechaFin
     )

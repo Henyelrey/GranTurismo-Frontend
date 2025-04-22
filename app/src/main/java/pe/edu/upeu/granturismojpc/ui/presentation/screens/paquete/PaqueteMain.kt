@@ -166,8 +166,8 @@ fun PaqueteGestion( navController: NavHostController,
                    singleLine = true
                )
             paquetesFiltrados.value = paquetes.filter {
-                        it.titulo.contains(searchQuery.value, ignoreCase = true) //||
-                        //it.categoria.nombre.contains(searchQuery.value, ignoreCase = true) ||
+                        it.titulo.contains(searchQuery.value, ignoreCase = true) ||
+                        it.proveedor.nombreCompleto.contains(searchQuery.value, ignoreCase = true) //||
                         //it.marca.nombre.contains(searchQuery.value, ignoreCase = true)
             }
             LazyColumn(modifier = Modifier
@@ -201,7 +201,7 @@ fun PaqueteGestion( navController: NavHostController,
                                 .clip(RoundedCornerShape(8.dp)),
                                 painter = rememberAsyncImagePainter(
                                     model = ImageRequest.Builder(context)
-                                        .data(paquetex.proveedor.nombre)
+                                        .data(paquetex.proveedor.nombreCompleto)
                                         .placeholder(R.drawable.bg)
                                         .error(R.drawable.bg)
                                         .build()
@@ -215,7 +215,7 @@ fun PaqueteGestion( navController: NavHostController,
                             ) {
                                 Text("${paquetex.titulo} - ${paquetex.precio}",
                                     fontWeight = FontWeight.Bold)
-                                Text("${paquetex.proveedor.nombre} - ${paquetex.descripcion}", color =MaterialTheme.colorScheme.primary)
+                                Text("${paquetex.proveedor.nombreCompleto} - ${paquetex.descripcion}", color =MaterialTheme.colorScheme.primary)
                             }
                             Spacer()
                             val showDialog = remember { mutableStateOf(false) }

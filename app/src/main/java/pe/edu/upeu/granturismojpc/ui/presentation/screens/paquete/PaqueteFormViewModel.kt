@@ -9,16 +9,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import pe.edu.upeu.granturismojpc.model.PaqueteCreateDto
 import pe.edu.upeu.granturismojpc.model.PaqueteDto
 import pe.edu.upeu.granturismojpc.model.PaqueteResp
+import pe.edu.upeu.granturismojpc.model.Proveedor
 import pe.edu.upeu.granturismojpc.repository.PaqueteRepository
+import pe.edu.upeu.granturismojpc.repository.ProveedorRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class PaqueteFormViewModel @Inject constructor(
     private val packRepo: PaqueteRepository,
-    /*private val marcRepo: MarcaRepository,
-    private val cateRepo: CategoriaRepository,
+    private val provRepo: ProveedorRepository,
+    /*private val cateRepo: CategoriaRepository,
     private val umRepo: UnidadMedidaRepository,*/
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -28,10 +31,10 @@ class PaqueteFormViewModel @Inject constructor(
     private val _paquete = MutableStateFlow<PaqueteResp?>(null)
     val paquete: StateFlow<PaqueteResp?> = _paquete
 
-    /*private val _marcs = MutableStateFlow<List<Marca>>(emptyList())
-    val marcs: StateFlow<List<Marca>> = _marcs
+    private val _provs = MutableStateFlow<List<Proveedor>>(emptyList())
+    val provs: StateFlow<List<Proveedor>> = _provs
 
-    private val _categors = MutableStateFlow<List<Categoria>>(emptyList())
+    /*private val _categors = MutableStateFlow<List<Categoria>>(emptyList())
     val categors: StateFlow<List<Categoria>> = _categors
 
     private val _unidMeds = MutableStateFlow<List<UnidadMedida>>(emptyList())
@@ -45,19 +48,34 @@ class PaqueteFormViewModel @Inject constructor(
         }
     }
 
-    /*fun getDatosPrevios() {
+    fun getDatosPrevios() {
         viewModelScope.launch {
-            _marcs.value = marcRepo.findAll()
-            _categors.value = cateRepo.findAll()
-            _unidMeds.value = umRepo.findAll()
+            _provs.value = provRepo.findAll()
+            //_categors.value = cateRepo.findAll()
+            //_unidMeds.value = umRepo.findAll()
         }
-    }*/
+    }
 
-    fun addPaquete(paquete: PaqueteDto){
-        viewModelScope.launch (Dispatchers.IO){
+    fun addPaquete(paquete: PaqueteDto) {
+        viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
-            Log.i("REAL", paquete.toString())
-            packRepo.insertarPaquete(paquete)
+
+            // Convertir PaqueteDto a PaqueteCreateDto para excluir el idPaquete
+            val paqueteCreateDto = PaqueteCreateDto(
+                titulo = paquete.titulo,
+                descripcion = paquete.descripcion,
+                precio = paquete.precio,
+                imagenUrl = paquete.imagenUrl,
+                localidad = paquete.localidad,
+                tipoActividad = paquete.tipoActividad,
+                cuposMaximos = paquete.cuposMaximos,
+                proveedor = paquete.proveedor,
+                fechaInicio = paquete.fechaInicio,
+                fechaFin = paquete.fechaFin
+            )
+
+            Log.i("REAL", "Creando paquete: $paqueteCreateDto")
+            packRepo.insertarPaquete(paqueteCreateDto)
             _isLoading.value = false
         }
     }

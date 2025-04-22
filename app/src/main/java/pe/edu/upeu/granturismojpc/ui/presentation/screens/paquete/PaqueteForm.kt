@@ -27,6 +27,7 @@ import com.github.k0shk0sh.compose.easyforms.EasyFormsResult
 import com.google.gson.Gson
 import pe.edu.upeu.granturismojpc.model.ComboModel
 import pe.edu.upeu.granturismojpc.model.PaqueteDto
+import pe.edu.upeu.granturismojpc.model.Proveedor
 import pe.edu.upeu.granturismojpc.model.toDto
 import pe.edu.upeu.granturismojpc.ui.navigation.Destinations
 import pe.edu.upeu.granturismojpc.ui.presentation.components.Spacer
@@ -39,6 +40,7 @@ import pe.edu.upeu.granturismojpc.ui.presentation.components.form.MyFormKeys
 import pe.edu.upeu.granturismojpc.ui.presentation.components.form.NameTextField
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @Composable
@@ -51,9 +53,10 @@ fun PaqueteForm(
     val paquete by viewModel.paquete.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
+    val proveedores by viewModel.provs.collectAsState()
 
     LaunchedEffect(Unit) {
-        //viewModel.getDatosPrevios()
+        viewModel.getDatosPrevios()
     }
 
     var paqueteD: PaqueteDto
@@ -67,8 +70,10 @@ fun PaqueteForm(
             Log.i("DMPX","Paquete: ${paqueteD.toString()}")
         }
     }else{
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val ahora = LocalDateTime.now().format(formatter)
         paqueteD= PaqueteDto(
-            0, "", "", 0.0, "", "", "", 0, 0, LocalDate.now().toString(), LocalDate.now().toString()
+            0, "", "", 0.0, "", "", "", 0, 0, ahora, ahora
         )
     }
 
@@ -83,7 +88,8 @@ fun PaqueteForm(
         darkMode,
         navController,
         paqueteD,
-        viewModel
+        viewModel,
+        proveedores,
     )
 }
 
@@ -98,20 +104,23 @@ fun formulario(id:Long,
                navController: NavHostController,
                paquete: PaqueteDto,
                viewModel: PaqueteFormViewModel,
+               listProveedor: List<Proveedor>,
                ){
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val ahora = LocalDateTime.now().format(formatter)
     val pack= PaqueteDto(
-        0, "", "", 0.0, "", "", "", 0, 0, LocalDate.now().toString(), LocalDate.now().toString()
+        0, "", "", 0.0, "", "", "", 0, 0, ahora, ahora
     )
     Scaffold(modifier = Modifier.padding(top = 80.dp, start = 16.dp, end = 16.dp, bottom =
         32.dp)){
         BuildEasyForms { easyForm ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 NameTextField(easyForms = easyForm, text=paquete?.titulo!!,"Nomb. Paquete:", MyFormKeys.NAME )
-                /*val listM: List<ComboModel> = listMarca.map { marca ->
-                    ComboModel(code = marca.idMarca.toString(), name = marca.nombre)
+                val listM: List<ComboModel> = listProveedor.map { proveedor ->
+                    ComboModel(code = proveedor.idProveedor.toString(), name = proveedor.nombreCompleto)
                 }
-                ComboBox(easyForm = easyForm, "Marca:", paquete?.marca?.let { it.toString() } ?: "", listM)
-                val listC: List<ComboModel> = listCategoria.map { categor ->
+                ComboBox(easyForm = easyForm, "Proveedor:", paquete?.proveedor?.let { it.toString() } ?: "", listM)
+                /*val listC: List<ComboModel> = listCategoria.map { categor ->
                     ComboModel(code = categor.idCategoria.toString(), name = categor.nombre)
                 }
                 ComboBoxTwo(easyForm = easyForm, "Categoría:", paquete?.categoria?.let { it.toString() } ?: "", listC)
@@ -127,7 +136,7 @@ fun formulario(id:Long,
                 NameTextField(easyForms = easyForm, text=paquete?.localidad.toString()!!,"Descrición:", MyFormKeys.LOCATION )
                 NameTextField(easyForms = easyForm, text=paquete?.tipoActividad.toString()!!,"Descrición:", MyFormKeys.ACTIVIDADID )
                 NameTextField(easyForms = easyForm, text=paquete?.cuposMaximos.toString()!!,"Cupos Máximos:", MyFormKeys.PU_OLD )
-                NameTextField(easyForms = easyForm, text=paquete?.proveedorId.toString()!!,"Proveedor:", MyFormKeys.UTILIDAD )
+                //NameTextField(easyForms = easyForm, text=paquete?.proveedorId.toString()!!,"Proveedor:", MyFormKeys.UTILIDAD )
                 NameTextField(easyForms = easyForm, text=paquete?.fechaInicio.toString()!!,"Fecha de inicio:", MyFormKeys.FECHA )
                 NameTextField(easyForms = easyForm, text=paquete?.fechaFin.toString()!!,"Fecha Fin:", MyFormKeys.DATE2 )
 
@@ -135,21 +144,21 @@ fun formulario(id:Long,
                     AccionButtonSuccess(easyForms = easyForm, "Guardar", id){
                         val lista=easyForm.formData()
                         pack.titulo=(lista.get(0) as EasyFormsResult.StringResult).value
-                        //pack.marca= (splitCadena((lista.get(1) as EasyFormsResult.GenericStateResult<String>).value)).toLong()
+                        pack.proveedor= (splitCadena((lista.get(1) as EasyFormsResult.GenericStateResult<String>).value)).toLong()
                         //pack.categoria= (splitCadena((lista.get(2) as EasyFormsResult.GenericStateResult<String>).value)).toLong()
                         //pack.unidadMedida= (splitCadena((lista.get(3) as EasyFormsResult.GenericStateResult<String>).value)).toLong()
-                        pack.descripcion=((lista.get(1) as EasyFormsResult.StringResult).value)
-                        pack.precio=((lista.get(2) as EasyFormsResult.StringResult).value).toDouble()
-                        pack.imagenUrl=((lista.get(3) as EasyFormsResult.StringResult).value)
-                        pack.localidad=((lista.get(4) as EasyFormsResult.StringResult).value)
-                        pack.tipoActividad=((lista.get(5) as EasyFormsResult.StringResult).value)
-                        pack.cuposMaximos=((lista.get(6) as EasyFormsResult.StringResult).value).toInt()
-                        pack.proveedorId=((lista.get(7) as EasyFormsResult.StringResult).value).toLong()
+                        pack.descripcion=((lista.get(2) as EasyFormsResult.StringResult).value)
+                        pack.precio=((lista.get(3) as EasyFormsResult.StringResult).value).toDouble()
+                        pack.imagenUrl=((lista.get(4) as EasyFormsResult.StringResult).value)
+                        pack.localidad=((lista.get(5) as EasyFormsResult.StringResult).value)
+                        pack.tipoActividad=((lista.get(6) as EasyFormsResult.StringResult).value)
+                        pack.cuposMaximos=((lista.get(7) as EasyFormsResult.StringResult).value).toInt()
+                        //pack.proveedorId=((lista.get(7) as EasyFormsResult.StringResult).value).toLong()
                         pack.fechaInicio=((lista.get(8) as EasyFormsResult.StringResult).value)
                         pack.fechaFin=((lista.get(9) as EasyFormsResult.StringResult).value)
 
-                        if (id==0.toLong()){
-                            //Log.i("AGREGAR", "M:"+ pack.marca)
+                        if (id==0L.toLong()){
+                            Log.i("AGREGAR", "P:"+ pack.proveedor)
                             //Log.i("AGREGAR", "VI:"+ pack.stock)
                             viewModel.addPaquete(pack)
                         }else{
