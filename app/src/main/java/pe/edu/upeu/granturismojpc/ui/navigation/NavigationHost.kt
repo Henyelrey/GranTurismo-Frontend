@@ -14,6 +14,8 @@ import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla4
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla5
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.home.HomeScreen
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.login.LoginScreen
+import pe.edu.upeu.granturismojpc.ui.presentation.screens.paquete.PaqueteForm
+import pe.edu.upeu.granturismojpc.ui.presentation.screens.paquete.PaqueteMain
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.register.RegisterScreen
 
 @Composable
@@ -81,6 +83,22 @@ fun NavigationHost(
             }
             )
         }
+
+        composable(Destinations.PaqueteMainSC.route){
+            PaqueteMain(navegarEditarAct = {newText->
+                navController.navigate(Destinations.PaqueteFormSC.passId(newText))},
+                navController =navController )
+        }
+        composable(Destinations.PaqueteFormSC.route, arguments =
+            listOf(navArgument("prodId"){
+                defaultValue="prodId"
+            })){navBackStackEntry -> var
+                prodId=navBackStackEntry.arguments?.getString("prodId")
+            requireNotNull(prodId)
+            PaqueteForm(text = prodId, darkMode = darkMode,
+                navController=navController )
+        }
+
 
     }
 }

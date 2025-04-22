@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import pe.edu.upeu.granturismojpc.data.remote.RestPaquete
 import pe.edu.upeu.granturismojpc.data.remote.RestUsuario
 import pe.edu.upeu.granturismojpc.utils.TokenUtils
 import retrofit2.Retrofit
@@ -43,5 +44,11 @@ class DataSourceModule {
     @Provides
     fun restUsuario(retrofit: Retrofit): RestUsuario{
         return retrofit.create(RestUsuario::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun restPaquete(retrofit: Retrofit): RestPaquete{
+        return retrofit.create(RestPaquete::class.java)
     }
 }

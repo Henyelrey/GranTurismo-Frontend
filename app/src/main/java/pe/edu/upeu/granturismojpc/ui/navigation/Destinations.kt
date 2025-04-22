@@ -2,6 +2,8 @@ package pe.edu.upeu.granturismojpc.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
 
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
@@ -27,5 +29,13 @@ sealed class Destinations(
 
     object HomeScreen : Destinations("pantallahome", "Pantalla Home", Icons.Filled.Home)
 
+    object PaqueteMainSC: Destinations("paquetemain","Adm. Paquetes", Icons.Filled.DateRange)
+        object PaqueteFormSC:
+            Destinations("paqueteForm?prodId={prodId}", "Form Paquete",
+                Icons.Filled.Add){
+            fun passId(prodId:String?):String{
+                return "paqueteForm?prodId=$prodId"
+            }
+        }
 
 }
