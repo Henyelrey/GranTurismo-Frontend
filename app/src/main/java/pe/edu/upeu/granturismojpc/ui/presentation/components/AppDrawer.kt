@@ -37,7 +37,9 @@ fun AppDrawer(
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    if (currentRoute == null || currentRoute == Destinations.Login.route || currentRoute == Destinations.Register.route)
+    if (currentRoute == null || currentRoute == Destinations.Login.route || currentRoute == Destinations.Register.route
+
+    )
     {
         return
     }

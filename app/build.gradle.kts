@@ -85,6 +85,9 @@ dependencies {
     val appcompat_version = "1.7.0" //old 1.6.1
     implementation("androidx.appcompat:appcompat:$appcompat_version")//Agrega do recien
 
+
+    implementation ("androidx.compose.material:material-icons-extended:1.6.7")
+
 }
 
 tasks.withType<JavaCompile>().configureEach {

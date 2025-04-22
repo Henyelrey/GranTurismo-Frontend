@@ -3,6 +3,8 @@ package pe.edu.upeu.granturismojpc.ui.presentation.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -13,21 +15,18 @@ import androidx.compose.runtime.Composable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    titulo:String,
+    titulo: String = "Gran Turismo",
     scope: CoroutineScope,
     scaffoldState: DrawerState,
     openDialog: () -> Unit,
     displaySnackBar: () -> Unit
 ) {
-
     TopAppBar(
         title = {
-            //Text(LocalContext.current.getString(R.string.app_name))
-                Text(text = titulo)
+            Text(text = titulo)
         },
         navigationIcon = {
             IconButton(onClick = {
@@ -36,8 +35,8 @@ fun TopBar(
                 }
             }) {
                 Icon(
-                    imageVector = Icons.Filled.Menu, contentDescription
-                    = "Menu Icon"
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = "Menú"
                 )
             }
         },
@@ -47,15 +46,15 @@ fun TopBar(
             }) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = "Search Icon"
+                    contentDescription = "Buscar"
                 )
             }
             IconButton(onClick = {
                 openDialog()
             }) {
                 Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search Icon"
+                    imageVector = Icons.Default.Settings, // icono de filtros
+                    contentDescription = "Filtros"
                 )
             }
         }

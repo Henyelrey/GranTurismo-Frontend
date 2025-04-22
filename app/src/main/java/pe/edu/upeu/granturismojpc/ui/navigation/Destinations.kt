@@ -25,5 +25,7 @@ sealed class Destinations(
     object Pantalla4 : Destinations("pantalla4", "Pantalla 4x", Icons.Filled.Face)
     object Pantalla5 : Destinations("pantalla5", "Pantalla 5x", Icons.Filled.AccountCircle)
 
+    object HomeScreen : Destinations("pantallahome", "Pantalla Home", Icons.Filled.Home)
+
 
 }
