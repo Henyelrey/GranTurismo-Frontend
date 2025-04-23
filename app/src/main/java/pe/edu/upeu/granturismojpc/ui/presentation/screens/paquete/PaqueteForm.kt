@@ -132,9 +132,9 @@ fun formulario(id:Long,
 
                 NameTextField(easyForms = easyForm, text=paquete?.descripcion.toString()!!,"Descrición:", MyFormKeys.DESCRIPTION )
                 NameTextField(easyForms = easyForm, text=paquete?.precio.toString()!!,"Precio:", MyFormKeys.PU )
-                NameTextField(easyForms = easyForm, text=paquete?.imagenUrl.toString()!!,"Descrición:", MyFormKeys.URL )
-                NameTextField(easyForms = easyForm, text=paquete?.localidad.toString()!!,"Descrición:", MyFormKeys.LOCATION )
-                NameTextField(easyForms = easyForm, text=paquete?.tipoActividad.toString()!!,"Descrición:", MyFormKeys.ACTIVIDADID )
+                NameTextField(easyForms = easyForm, text=paquete?.imagenUrl.toString()!!,"ImagenURL:", MyFormKeys.URL )
+                NameTextField(easyForms = easyForm, text=paquete?.localidad.toString()!!,"Localidad:", MyFormKeys.LOCATION )
+                NameTextField(easyForms = easyForm, text=paquete?.tipoActividad.toString()!!,"Tipo de Acividad:", MyFormKeys.ACTIVIDADID )
                 NameTextField(easyForms = easyForm, text=paquete?.cuposMaximos.toString()!!,"Cupos Máximos:", MyFormKeys.PU_OLD )
                 //NameTextField(easyForms = easyForm, text=paquete?.proveedorId.toString()!!,"Proveedor:", MyFormKeys.UTILIDAD )
                 NameTextField(easyForms = easyForm, text=paquete?.fechaInicio.toString()!!,"Fecha de inicio:", MyFormKeys.FECHA )

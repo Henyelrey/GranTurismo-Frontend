@@ -3,6 +3,7 @@ package pe.edu.upeu.granturismojpc.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla3
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla4
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.Pantalla5
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.home.HomeScreen
+import pe.edu.upeu.granturismojpc.ui.presentation.screens.home.HomeViewModel
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.login.LoginScreen
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.paquete.PaqueteForm
 import pe.edu.upeu.granturismojpc.ui.presentation.screens.paquete.PaqueteMain
@@ -74,15 +76,18 @@ fun NavigationHost(
         }
 
         composable(Destinations.HomeScreen.route) {
-            HomeScreen(navegarPantalla2 = { newText ->
-                navController.navigate(
-                    Destinations.Pantalla2.createRoute(
-                        newText
+            val viewModel: HomeViewModel = hiltViewModel()
+            HomeScreen(
+                navegarPantalla2 = { newText ->
+                    navController.navigate(
+                        Destinations.Pantalla2.createRoute(newText)
                     )
-                )
-            }
+                },
+                navController = navController,
+                viewModel = viewModel
             )
         }
+
 
         composable(Destinations.PaqueteMainSC.route){
             PaqueteMain(navegarEditarAct = {newText->
